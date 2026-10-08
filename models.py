@@ -13,8 +13,9 @@ class Autor(Base):
     nome: Mapped[str]
     pais: Mapped[str]
 
-    # TODO: relacione Autor com Livro usando relationship e back_populates.
-
+    livros: Mapped[List["Livro"]] = relationship(
+        back_populates="autor"
+    )
 
 class Livro(Base):
     __tablename__ = "livros"
@@ -24,5 +25,8 @@ class Livro(Base):
     ano: Mapped[int]
     autor_id: Mapped[int] = mapped_column(ForeignKey("autores.id"))
 
-    # TODO: adicione o campo disponivel, com valor padrão True.
-    # TODO: relacione Livro com Autor usando relationship e back_populates.
+    disponivel: Mapped[bool] = mapped_column(default=True)
+
+    autor: Mapped["Autor"] = relationship(
+        back_populates="livros"
+    )
